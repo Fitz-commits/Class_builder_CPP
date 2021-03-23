@@ -11,6 +11,14 @@ class MyClass:
 
     def create_hpp(self):
         content = 'class {a}\n{{\nprivate:\npublic:\n\t{a}();\n\t{a}({a} const& to_copy);\n\t~{a}();\n\t{a}& operator=({a} const& to_copy);\n}};\n'.format(**self.data)
+        lst = content.split("\n")
+        header = "#ifndef " + self.data['a'].upper() + "_HPP"
+        header2 = "#define " + self.data['a'].upper() + "_HPP"
+        tail = "#endif"
+        lst.insert(0, header2)
+        lst.insert(0, header)
+        lst.append(tail)
+        content = '\n'.join(lst)
         f = open('{}.hpp'.format(self.file_name), "w+")
         f.write(content)
         f.close()
